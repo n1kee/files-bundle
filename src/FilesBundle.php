@@ -11,8 +11,5 @@ class FilesBundle extends AbstractBundle {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import(__DIR__ . '/../config/services.yaml');
-    
-        #$definition = $builder
-            #->autowire('aaa.web-scrapper', Files::class);
     }
 }

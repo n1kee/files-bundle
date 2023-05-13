@@ -8,7 +8,7 @@ class Image extends File {
 
     private Imagick $file;
 
-    function __construct(string $filePath)
+    function __construct(string $filePath = null)
     {
         $this->file = new Imagick($filePath);
     }
@@ -17,17 +17,17 @@ class Image extends File {
         return $this->file->{$name}(...$args);
     }
 
-    function getWidth()
+    function getWidth(): string
     {
         return $this->file->getImageGeometry()["width"];
     }
 
-    function getHeight()
+    function getHeight(): float
     {
         return $this->file->getImageGeometry()["height"];
     }
 
-    function setMaxWidth(float $width)
+    function setMaxWidth(float $width): float
     {
         if ($this->getWidth() > $width) {
            return $this->resize($width); 
