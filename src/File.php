@@ -15,7 +15,7 @@ class File {
     
     function __construct($filePath = null)
     {
-        $filePath = $file ?? tempnam(sys_get_temp_dir(), 'file');
+        $filePath = $filePath ?? tempnam(sys_get_temp_dir(), 'file');
         $this->initFile($filePath);
     }
 
@@ -27,13 +27,28 @@ class File {
         $this->file->fwrite($data);
     }
 
+    function read() {
+        return file_get_contents($this->file->getRealPath());
+    }
+
+    function readJson() {
+        return json_decode($this->read(), true);
+    }
+
+    function getFile() {
+        return $this->file;
+    }
+
+    function getFileSignature() {
+        return hash_file('sha256', $this->file->getRealPath());
+    }
+
     function save(string $filePath) {
         $tmpFilePath = $this->file->getRealPath();
-        $fileName = basename($tmpFilePath);
-        $fullFilePath = FileSystem::createPath($filePath, $fileName);
+        $fileName = basename($filePath);
         $this->file->fflush();
-        rename($tmpFilePath, $fullFilePath);
-        $this->initFile($fullFilePath);
+        copy($tmpFilePath, $filePath);
+        $this->initFile($filePath);
     }
 }
 
