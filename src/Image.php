@@ -6,7 +6,7 @@ use Imagick;
 
 class Image extends File {
 
-    private Imagick $file;
+    protected $file;
 
     function __construct(string $filePath = null)
     {
