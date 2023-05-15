@@ -64,16 +64,8 @@ class Image extends File {
         return $fileClone;
     }
 
-    public function addText(string $text)
-    {
+    function getTextDraw(string $text) {
         $draw = new ImagickDraw;
-
-        $rect = [
-            'x' => 0,
-            'y' => 0,
-            'h' => $this->getHeight(),
-            'w' => $this->getWidth(),
-        ];
 
         /* Black text */
         $draw->setTextUnderColor('#ffffff');
@@ -83,15 +75,28 @@ class Image extends File {
         $draw->setFont('Bookman-DemiItalic');
         $draw->setFontSize( 30 );
 
+        return $draw;
+    }
+
+    public function addCenteredText(string $text)
+    {
+        $draw = $this->getTextDraw($text);
+
         $metrics = $this->file->queryFontMetrics($draw, $text);
 
-        // Adjust starting x,y as needed to meet your requirements.
-        $offset = [
-            'x' => $rect['x'] + $rect['w'] / 2 - $metrics['textWidth'] / 2,
-            'y' => $rect['y'] + $rect['h'] / 2 + $metrics['textHeight'] / 2 + $metrics['descender'],
-        ];
+        $offsetX = $this->getWidth() / 2 - $metrics['textWidth'] / 2;
+        $offsetY = $this->getHeight() / 2 + $metrics['textHeight'] / 2 + $metrics['descender'];
 
-        /* Create text */
-        $this->file->annotateImage($draw, $offset["x"], $offset["y"], 0, $text);
+        $this->file->annotateImage($draw, $offsetX, $offsetY, 0, $text);
+    }
+
+    public function addBottomText(string $text)
+    {
+        $draw = $this->getTextDraw($text);
+
+        $offsetX = 0;
+        $offsetY = $this->getHeight() - 10;
+
+        $this->file->annotateImage($draw, $offsetX, $offsetY, 0, $text);
     }
 }
