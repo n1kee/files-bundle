@@ -19,9 +19,9 @@ class File {
         $this->initFile($filePath);
     }
 
-    // function __destruct() {
-    //     $this->file = null;
-    // }
+    function __destruct() {
+        $this->file = null;
+    }
 
     function write(string $data) {
         $this->file->fwrite($data);
