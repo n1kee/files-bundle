@@ -39,6 +39,10 @@ class File {
         return $this->file;
     }
 
+    function setFile($file) {
+        return $this->file = $file;
+    }
+
     function getFileSignature() {
         return hash_file('sha256', $this->file->getRealPath());
     }
@@ -49,6 +53,12 @@ class File {
         $this->file->fflush();
         copy($tmpFilePath, $filePath);
         $this->initFile($filePath);
+    }
+
+    function getClone() {
+        $fileClone = clone $this;
+        $fileClone->setFile(clone $this->file);
+        return $fileClone;
     }
 }
 
