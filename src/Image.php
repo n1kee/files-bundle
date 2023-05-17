@@ -14,10 +14,6 @@ class Image extends File {
         $this->file = new Imagick($filePath);
     }
 
-    function __call($name, $args) {
-        return $this->file->{$name}(...$args);
-    }
-
     function getWidth(): string
     {
         return $this->file->getImageGeometry()["width"];

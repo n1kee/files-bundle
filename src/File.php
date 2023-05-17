@@ -23,6 +23,10 @@ class File {
         $this->file = null;
     }
 
+    function __call($name, $args) {
+        return $this->file->{$name}(...$args);
+    }
+
     function write(string $data) {
         $this->file->fwrite($data);
     }
