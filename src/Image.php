@@ -64,12 +64,12 @@ class Image extends File {
         return $fileClone;
     }
 
-    function getTextDraw(string $text) {
+    protected function getTextDraw(string $text, string $textColor = null, string $bgColor = null) {
         $draw = new ImagickDraw;
 
         /* Black text */
-        $draw->setTextUnderColor('#ffffff');
-        $draw->setFillColor('black');
+        if ($bgColor) $draw->setTextUnderColor($bgColor);
+        if ($textColor) $draw->setFillColor($textColor);
 
         /* Font properties */
         $draw->setFont('Bookman-DemiItalic');
@@ -78,9 +78,9 @@ class Image extends File {
         return $draw;
     }
 
-    public function addCenteredText(string $text)
+    public function addCenteredText(string $text, string $textColor = null, string $bgColor = null)
     {
-        $draw = $this->getTextDraw($text);
+        $draw = $this->getTextDraw($text, $textColor, $bgColor);
 
         $metrics = $this->file->queryFontMetrics($draw, $text);
 
@@ -90,9 +90,9 @@ class Image extends File {
         $this->file->annotateImage($draw, $offsetX, $offsetY, 0, $text);
     }
 
-    public function addBottomText(string $text)
+    public function addBottomText(string $text, string $textColor, string $bgColor)
     {
-        $draw = $this->getTextDraw($text);
+        $draw = $this->getTextDraw($text, $textColor, $bgColor);
 
         $offsetX = 0;
         $offsetY = $this->getHeight() - 10;
